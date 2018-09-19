@@ -27,13 +27,13 @@ message PayloadMetadata {
         DOUBLE = 7;
         BOOL = 8;
         STRING = 9;
-        TIMESTAMP = 10;
+        DATETIME = 10;
+        BYTES = 11;
         CHARS = 12;
         INTS = 14;
         LONGS = 15;
         DOUBLES = 17;
         STRINGS = 19;
-        BYTES = 30;
         PROTO = 31;
         JSON = 32;
         HESSIAN = 33;
