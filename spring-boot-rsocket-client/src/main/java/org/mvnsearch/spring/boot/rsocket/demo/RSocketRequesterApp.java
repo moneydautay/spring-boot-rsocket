@@ -5,6 +5,7 @@ import io.rsocket.RSocketFactory;
 import io.rsocket.client.LoadBalancedRSocketMono;
 import io.rsocket.client.filter.RSocketSupplier;
 import io.rsocket.transport.netty.client.TcpClientTransport;
+import org.mvnsearch.spring.boot.rsocket.RSocketInvocationRequesterHandler;
 import org.mvnsearch.user.UserService;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +82,7 @@ public class RSocketRequesterApp implements ApplicationListener<ApplicationReady
         return (UserService) Proxy.newProxyInstance(
                 UserService.class.getClassLoader(),
                 new Class[]{UserService.class},
-                new RSocketInvocationHandler(rSocket));
+                new RSocketInvocationRequesterHandler(rSocket));
     }
 
     /**
