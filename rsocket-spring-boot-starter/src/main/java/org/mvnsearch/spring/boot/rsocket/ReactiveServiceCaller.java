@@ -1,5 +1,7 @@
 package org.mvnsearch.spring.boot.rsocket;
 
+import java.util.Set;
+
 /**
  * reactive service caller
  *
@@ -15,4 +17,20 @@ public interface ReactiveServiceCaller {
      * @return result
      */
     Object invoke(String serviceName, String rpc, Object[] args) throws Exception;
+
+    /**
+     * validate service
+     *
+     * @param serviceName service
+     * @param rpc         rpc
+     * @return exist mark
+     */
+    boolean contains(String serviceName, String rpc);
+
+    /**
+     * find all service
+     *
+     * @return service list
+     */
+    Set<String> findAllServices();
 }
