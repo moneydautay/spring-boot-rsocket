@@ -1,6 +1,5 @@
 package org.mvnsearch.spring.boot.rsocket.demo;
 
-import io.rsocket.RSocket;
 import org.mvnsearch.user.User;
 import org.mvnsearch.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +38,8 @@ public class PortalController {
         return Mono.just("good");
     }
 
-
     @RequestMapping("/")
     public String index() {
-        return "good";
+        return "welcome";
     }
 }
