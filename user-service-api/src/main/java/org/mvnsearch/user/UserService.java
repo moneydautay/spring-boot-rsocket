@@ -27,7 +27,6 @@ public interface UserService {
      */
     Mono<String> getAppName();
 
-
     /**
      * rpc call, you want to deal success result: result.doOnSuccess(s -> { }).subscribe();
      *
@@ -36,7 +35,7 @@ public interface UserService {
     Mono<Void> job1();
 
     /**
-     * fire & forgot operation
+     * fire & forget operation
      *
      * @param name name
      */
