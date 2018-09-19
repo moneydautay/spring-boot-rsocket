@@ -89,7 +89,7 @@ en/decoding strategy for metadata and data.
 * fast en/decoding for arguments
 * payload is small with good protocol: binary better
 * protocol is easy to parse
-* Reactive: :beer: for RSocket
+* Reactive: :beer:  RSocket shipped by default
 
 ### Todo
 
