@@ -10,12 +10,12 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
- * RSocket request handler
+ * RSocket request responder handler
  *
  * @author linux_china
  */
 @SuppressWarnings("Duplicates")
-public class RSocketRequestHandler extends AbstractRSocket {
+public class RSocketRequestResponderHandler extends AbstractRSocket {
     @Autowired
     private ReactiveServiceCaller serviceCall;
 
