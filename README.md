@@ -76,6 +76,13 @@ Just invoke spring boot shutdown.
 
 en/decoding strategy for metadata and data.
 
+### Performance
+
+* fast en/decoding for arguments
+* payload is small with good protocol: binary better
+* protocol is easy to parse
+* Reactive: :beer: for RSocket
+
 ### Todo
 
 * channel design: port or routing
