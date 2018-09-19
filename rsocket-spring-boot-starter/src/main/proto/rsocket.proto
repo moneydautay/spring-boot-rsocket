@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option java_multiple_files = false;
+option java_outer_classname = "RSocketProtos";
+
+package org.mvnsearch.rsocket;
+
+// RSocket Payload Metadata
+message PayloadMetadata {
+    Encoding encoding = 1;
+    string service = 2;
+    string rpc = 3;
+    string version = 4;
+    uint32 flag = 5;
+    string traceId = 10;
+    string authorization = 11;
+    map<string, string> attributes = 12;
+
+    enum Encoding {
+        VOID = 0;
+        BYTE = 1;
+        SHORT = 2;
+        INT = 3;
+        LONG = 4;
+        FLOAT = 5;
+        DOUBLE = 6;
+        BOOL = 7;
+        STRING = 8;
+        TIMESTAMP = 9;
+        INTS = 13;
+        LONGS = 14;
+        DOUBLES = 16;
+        STRINGS = 18;
+        BYTES = 30;
+        PROTO = 31;
+        JSON = 32;
+        HESSIAN = 33;
+    }
+}
+
+
