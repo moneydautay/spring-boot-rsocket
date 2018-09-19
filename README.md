@@ -84,6 +84,19 @@ en/decoding strategy for metadata and data.
 * performance: fast and small
 * ByteBuffer is friendly for Primitive data type
 
+primitive data type
+
+* byte: 0
+* short: 0
+* int: 0
+* long: 0L
+* float: 0.0f
+* double: 0.0d
+* char: 0
+* String: null
+* boolean: false
+* date: year, month, day, hour, minute, second, how about timezone(GMT 0)?
+
 ### Performance
 
 * fast en/decoding for arguments
