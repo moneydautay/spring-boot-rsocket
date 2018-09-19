@@ -74,10 +74,22 @@ Just invoke spring boot shutdown.
 
 ### en/decoding
 
-en/decoding strategy for metadata and data.
+en/decoding strategy for data.
 
 * metadata: encoding by protobuf, please refer [rsocket.proto](rsocket-spring-boot-starter/src/main/proto/rsocket.proto)
 * data: primitive data, pb, json, hessian etc
+
+#####  serializers(en/decoding)
+
+Please consider polyglot problem.
+
+* protobuf
+* json
+* hessian
+* kryo
+* thrift
+* avro
+* msgpack
 
 ##### Why encoding for primitive data type
 
