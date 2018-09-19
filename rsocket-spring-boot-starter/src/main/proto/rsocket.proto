@@ -41,6 +41,7 @@ message PayloadMetadata {
         THRIFT = 35;
         AVRO = 36;
         MSGPACK = 37;
+        CBOR = 38;
     }
 }
 
