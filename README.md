@@ -1,7 +1,7 @@
 RSocket for spring boot
 =======================
 
-# graceful shutdown
+### graceful shutdown
 Just invoke spring boot shutdown.
 
 ### RSocket settings
@@ -23,7 +23,7 @@ Just invoke spring boot shutdown.
 * channel design: port or routing
 * load balance
 
-# References
+### References
 
 * RSocket: http://rsocket.io/
 * Reactor: http://projectreactor.io/
