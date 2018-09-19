@@ -26,6 +26,7 @@ rsocket.dispose();
 ### Todo
 
 * channel design: port or routing
+* load balance
 
 # References
 
