@@ -2,16 +2,11 @@ RSocket for spring boot
 =======================
 
 # graceful shutdown
-invoke dispose() on all rsocket.
+Just invoke spring boot shutdown.
 
-```
-rsocket.dispose();
-```
-
-### RSockets
+### RSocket settings
 
 * default port: 42252
-* content type: application/rsocket
 
 ### RPC
 
