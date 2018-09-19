@@ -95,7 +95,7 @@ primitive data type
 * char: 0
 * String: null
 * boolean: false
-* date: year, month, day, hour, minute, second, how about timezone(GMT 0)?
+* datetime: year, month, day, hour, minute, second, how about timezone(GMT 0)?
 
 ### Performance
 
@@ -103,6 +103,10 @@ primitive data type
 * payload is small with good protocol: binary better
 * protocol is easy to parse
 * Reactive: :beer:  RSocket shipped by default
+
+### Tips
+
+* subscribe operation in ApplicationRunner: these runners will be called after SpringApplication has started
 
 ### Todo
 
