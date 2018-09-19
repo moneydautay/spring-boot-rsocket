@@ -16,8 +16,6 @@ import reactor.core.publisher.Mono;
 @RestController
 public class PortalController {
     @Autowired
-    RSocket rSocket;
-    @Autowired
     UserService userService;
 
     @RequestMapping("/user")
