@@ -37,6 +37,10 @@ message PayloadMetadata {
         PROTO = 31;
         JSON = 32;
         HESSIAN = 33;
+        KRYO = 34;
+        THRIFT = 35;
+        AVRO = 36;
+        MSGPACK = 37;
     }
 }
 
