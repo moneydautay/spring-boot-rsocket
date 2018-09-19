@@ -17,6 +17,7 @@
         <rsocket.version>0.11.7</rsocket.version>
         <hessian.version>4.0.51</hessian.version>
         <protobuf-java.version>3.6.1</protobuf-java.version>
+        <msgpack.version>0.8.16</msgpack.version>
     </properties>
     <developers>
         <developer>
@@ -54,6 +55,7 @@
             <artifactId>rsocket-core</artifactId>
             <version>${rsocket.version}</version>
         </dependency>
+        <!--en/decoding-->
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
@@ -64,6 +66,12 @@
             <artifactId>hessian</artifactId>
             <version>${hessian.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.msgpack</groupId>
+            <artifactId>msgpack-core</artifactId>
+            <version>${msgpack.version}</version>
+        </dependency>
+        <!--unit test-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
