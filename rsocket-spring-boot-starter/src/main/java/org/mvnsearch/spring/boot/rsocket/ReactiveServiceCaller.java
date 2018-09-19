@@ -16,7 +16,7 @@ public interface ReactiveServiceCaller {
      * @param args        args
      * @return result
      */
-    Object invoke(String serviceName, String rpc, Object[] args) throws Exception;
+    Object invoke(String serviceName, String rpc, Object... args) throws Exception;
 
     /**
      * validate service
