@@ -83,13 +83,17 @@ en/decoding strategy for data.
 
 Please consider polyglot problem.
 
-* protobuf
-* json
-* hessian
-* kryo
-* thrift
-* avro
-* msgpack
+* json:
+* protobuf: https://developers.google.cn/protocol-buffers/
+* hessian: http://hessian.caucho.com/
+* kryo: https://github.com/EsotericSoftware/kryo
+* thrift: https://thrift.apache.org/
+* avro: https://avro.apache.org/
+* msgpack: https://msgpack.org/  redis, fluentd etc
+* cbor: http://cbor.io/
+
+Kotlin serialization supports JSON, Protobuf, CBOR by default.
+
 
 ##### Why encoding for primitive data type
 
@@ -107,7 +111,7 @@ primitive data type
 * char: 0
 * String: null
 * boolean: false
-* datetime: year, month, day, hour, minute, second, how about timezone(GMT 0)?
+* datetime: year, month, day, hour, minute, second, how about timezone(GMT 0) or timezone field?
 
 ### Performance
 
