@@ -1,11 +1,9 @@
-package org.mvnsearch.spring.boot.rsocket.demo;
+package org.mvnsearch.spring.boot.rsocket;
 
 
 import io.rsocket.Payload;
 import io.rsocket.RSocket;
 import io.rsocket.util.DefaultPayload;
-import org.mvnsearch.spring.boot.rsocket.HessianUtils;
-import org.mvnsearch.spring.boot.rsocket.InvocationMetaData;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -16,14 +14,14 @@ import static org.mvnsearch.spring.boot.rsocket.HessianUtils.input;
 
 
 /**
- * RSocket invocation handler for proxy interface
+ * RSocket invocation requester handler for proxy interface
  *
  * @author linux_china
  */
-public class RSocketInvocationHandler implements InvocationHandler {
+public class RSocketInvocationRequesterHandler implements InvocationHandler {
     private RSocket rSocket;
 
-    public RSocketInvocationHandler(RSocket rSocket) {
+    public RSocketInvocationRequesterHandler(RSocket rSocket) {
         this.rSocket = rSocket;
     }
 
