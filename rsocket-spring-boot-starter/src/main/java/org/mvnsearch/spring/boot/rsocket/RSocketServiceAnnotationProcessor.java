@@ -46,7 +46,7 @@ public class RSocketServiceAnnotationProcessor implements BeanPostProcessor, Rea
     }
 
     @Override
-    public Object invoke(String serviceName, String rpc, Object[] args) throws Exception {
+    public Object invoke(String serviceName, String rpc, Object... args) throws Exception {
         Method method = methodInvokeEntrances.get(serviceName + "." + rpc);
         return method.invoke(rsocketServices.get(serviceName), args);
     }
