@@ -2,6 +2,7 @@ package org.mvnsearch.spring.boot.rsocket;
 
 import com.caucho.hessian.io.HessianSerializerInput;
 import com.caucho.hessian.io.HessianSerializerOutput;
+import org.mvnsearch.spring.boot.rsocket.io.ByteBufferBackedInputStream;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
