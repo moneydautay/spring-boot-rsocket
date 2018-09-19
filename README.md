@@ -76,6 +76,14 @@ Just invoke spring boot shutdown.
 
 en/decoding strategy for metadata and data.
 
+* metadata: encoding by protobuf, please refer [rsocket.proto](rsocket-spring-boot-starter/src/main/proto/rsocket.proto)
+* data: primitive data, pb, json, hessian etc
+
+##### Why encoding for primitive data type
+
+* performance: fast and small
+* ByteBuffer is friendly for Primitive data type
+
 ### Performance
 
 * fast en/decoding for arguments
@@ -89,6 +97,7 @@ en/decoding strategy for metadata and data.
 * load balance
 * metrics & tracing
 * spring boot actuator for rsocket
+* client cache for performance
 
 ### References
 
