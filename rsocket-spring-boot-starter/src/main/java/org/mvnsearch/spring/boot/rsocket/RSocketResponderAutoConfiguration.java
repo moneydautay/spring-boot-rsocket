@@ -30,17 +30,17 @@ public class RSocketResponderAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(AbstractRSocket.class)
-    public RSocketRequestHandler reactiveServiceHandler() {
-        return new RSocketRequestHandler();
+    public RSocketRequestResponderHandler rSocketRequestResponderHandler() {
+        return new RSocketRequestResponderHandler();
     }
 
     @Bean
-    public RSocketServiceAnnotationProcessor reactiveServiceAnnotationProcessor() {
+    public RSocketServiceAnnotationProcessor rSocketServiceAnnotationProcessor() {
         return new RSocketServiceAnnotationProcessor();
     }
 
     @Bean(destroyMethod = "dispose")
-    public Disposable rSocket(AbstractRSocket myRSocket) {
+    public Disposable rsocketResponder(AbstractRSocket myRSocket) {
         SocketAcceptor socketAcceptor = (setupPayload, reactiveSocket) -> Mono.just(myRSocket);
         Disposable rsocket = RSocketFactory
                 .receive()
