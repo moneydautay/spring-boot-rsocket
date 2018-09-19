@@ -15,6 +15,8 @@
         <java.version>1.8</java.version>
         <spring-boot.version>2.0.5.RELEASE</spring-boot.version>
         <rsocket.version>0.11.7</rsocket.version>
+        <hessian.version>4.0.51</hessian.version>
+        <protobuf-java.version>3.6.1</protobuf-java.version>
     </properties>
     <developers>
         <developer>
@@ -53,9 +55,14 @@
             <version>${rsocket.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>${protobuf-java.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.caucho</groupId>
             <artifactId>hessian</artifactId>
-            <version>4.0.51</version>
+            <version>${hessian.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -78,6 +85,13 @@
     </dependencyManagement>
 
     <build>
+        <extensions>
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>1.6.0</version>
+            </extension>
+        </extensions>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -87,6 +101,22 @@
                     <target>1.8</target>
                     <parameters>true</parameters>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.xolstice.maven.plugins</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+                <version>0.5.1</version>
+                <configuration>
+                    <protocArtifact>com.google.protobuf:protoc:${protobuf-java.version}:exe:${os.detected.classifier}
+                    </protocArtifact>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
