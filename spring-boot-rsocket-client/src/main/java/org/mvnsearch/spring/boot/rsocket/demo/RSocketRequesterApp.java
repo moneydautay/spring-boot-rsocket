@@ -81,7 +81,7 @@ public class RSocketRequesterApp implements ApplicationListener<ApplicationReady
         return (UserService) Proxy.newProxyInstance(
                 UserService.class.getClassLoader(),
                 new Class[]{UserService.class},
-                new RSocketRequestResponseInvocationHandler(rSocket));
+                new RSocketInvocationHandler(rSocket));
     }
 
     /**
