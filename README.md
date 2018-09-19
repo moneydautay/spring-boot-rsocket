@@ -18,10 +18,16 @@ Just invoke spring boot shutdown.
 * no method overload(no methods with same name in one service)
 * channel (bi-directional streams) could be implemented on different listen port by cloud event
 
+### en/decoding
+
+en/decoding strategy for metadata and data.
+
 ### Todo
 
 * channel design: port or routing
 * load balance
+* metrics & tracing
+* spring boot actuator for rsocket
 
 ### References
 
