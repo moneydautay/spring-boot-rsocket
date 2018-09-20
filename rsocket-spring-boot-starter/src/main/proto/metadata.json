@@ -1,0 +1,12 @@
+{
+  "encoding": "json",
+  "service": "org.mvnsearch.UserService",
+  "rpc": "findById",
+  "version": "1.0.0",
+  "flag": 1234,
+  "traceId": "111-222-333",
+  "authorization": "jwt-token",
+  "attributes": {
+    "source": "app-1"
+  }
+}
