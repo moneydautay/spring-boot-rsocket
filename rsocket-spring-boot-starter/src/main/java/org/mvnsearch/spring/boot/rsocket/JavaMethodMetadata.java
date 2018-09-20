@@ -104,9 +104,13 @@ public class JavaMethodMetadata {
         if (this.encoding == RSocketProtos.PayloadMetadata.Encoding.VOID) {
             return ByteBuffer.wrap(EMPTY_BODY);
         } else if (this.encoding == RSocketProtos.PayloadMetadata.Encoding.INT) {
-            return ByteBuffer.allocate(4).putInt((int) args[0]);
+            ByteBuffer buf = ByteBuffer.allocate(4).putInt((int) args[0]);
+            buf.flip();
+            return buf;
         } else if (this.encoding == RSocketProtos.PayloadMetadata.Encoding.LONG) {
-            return ByteBuffer.allocate(8).putLong((long) args[0]);
+            ByteBuffer buf = ByteBuffer.allocate(8).putLong((long) args[0]);
+            buf.flip();
+            return buf;
         } else if (this.encoding == RSocketProtos.PayloadMetadata.Encoding.STRING) {
             return ByteBuffer.wrap(((String) args[0]).getBytes(StandardCharsets.UTF_8));
         } else { // encoding by hessian default
