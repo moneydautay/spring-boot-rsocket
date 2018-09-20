@@ -10,6 +10,9 @@ import reactor.core.publisher.Mono;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.nio.ByteBuffer;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.mvnsearch.spring.boot.rsocket.HessianUtils.input;
 
@@ -20,7 +23,9 @@ import static org.mvnsearch.spring.boot.rsocket.HessianUtils.input;
  * @author linux_china
  */
 public class RSocketInvocationRequesterHandler implements InvocationHandler {
+
     private RSocket rSocket;
+    private Map<Method, JavaMethodMetadata> methodMetadataMap = new ConcurrentHashMap<>();
 
     public RSocketInvocationRequesterHandler(RSocket rSocket) {
         this.rSocket = rSocket;
@@ -28,26 +33,36 @@ public class RSocketInvocationRequesterHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        //performance, cache method
+        if (!methodMetadataMap.containsKey(method)) {
+            methodMetadataMap.put(method, new JavaMethodMetadata(method));
+        }
+        JavaMethodMetadata methodMetadata = methodMetadataMap.get(method);
+        //payload metadata
         RSocketProtos.PayloadMetadata.Builder metaData = RSocketProtos.PayloadMetadata.newBuilder();
-        metaData.setService(method.getDeclaringClass().getCanonicalName());
-        metaData.setRpc(method.getName());
-        metaData.setEncoding(RSocketProtos.PayloadMetadata.Encoding.HESSIAN);
-        byte[] metaDataBytes = metaData.build().toByteArray();
-        if (method.getParameterCount() > 0 && method.getParameterTypes()[0].equals(Flux.class)) {
+        metaData.setService(methodMetadata.getClassFullName());
+        metaData.setRpc(methodMetadata.getName());
+        metaData.setEncoding(methodMetadata.getEncoding());
+        //metadata data content
+        ByteBuffer metadataBuffer = ByteBuffer.wrap(metaData.build().toByteArray());
+        //body content
+        ByteBuffer bodyBuffer = methodMetadata.encodingBody(args);
+        //----- return type deal------
+        if (methodMetadata.isFluxReturnType()) { //flux return
             Flux<Object> source = (Flux<Object>) args[0];
-            Payload routePayload = DefaultPayload.create(new byte[]{0}, metaDataBytes);
+            Payload routePayload = DefaultPayload.create(bodyBuffer, metadataBuffer);
+            //todo not finished yet
             Flux<Payload> newFlux = Flux.just(routePayload).mergeWith(source.map(t -> DefaultPayload.create(HessianUtils.output(t))));
             return rSocket.requestChannel(newFlux);
         } else {
-            byte[] content = HessianUtils.output(args);
             if (method.getReturnType().equals(Void.TYPE)) {
-                rSocket.fireAndForget(DefaultPayload.create(content, metaDataBytes))
+                rSocket.fireAndForget(DefaultPayload.create(bodyBuffer, metadataBuffer))
                         .doOnSuccess(s -> {
                         })
                         .subscribe();
                 return null;
             } else if (method.getReturnType().equals(Flux.class)) {
-                Flux<Payload> flux = rSocket.requestStream(DefaultPayload.create(content, metaDataBytes));
+                Flux<Payload> flux = rSocket.requestStream(DefaultPayload.create(bodyBuffer, metadataBuffer));
                 return flux.map(payload -> {
                     try {
                         return input(payload.getData());
@@ -56,7 +71,7 @@ public class RSocketInvocationRequesterHandler implements InvocationHandler {
                     }
                 });
             } else {
-                Mono<Payload> payloadMono = rSocket.requestResponse(DefaultPayload.create(content, metaDataBytes));
+                Mono<Payload> payloadMono = rSocket.requestResponse(DefaultPayload.create(bodyBuffer, metadataBuffer));
                 return payloadMono.map(payload -> {
                     try {
                         return input(payload.getData());
@@ -66,7 +81,6 @@ public class RSocketInvocationRequesterHandler implements InvocationHandler {
                 });
             }
         }
-
     }
 
 }
