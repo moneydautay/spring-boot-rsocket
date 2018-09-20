@@ -4,8 +4,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mvnsearch.rsocket.RSocketProtos;
 
+import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 /**
  * encoding test
@@ -34,6 +36,22 @@ public class EncodingTest {
         byteBuffer.clear();
         int age2 = byteBuffer.getInt();
         Assert.assertEquals(age, age2);
+    }
+
+    @Test
+    public void testWildInvoke() throws Exception {
+        Method method = findOnlyMethod(this.getClass(), "findById");
+        Object result1 = method.invoke(this, 1);
+        Object result2 = method.invoke(this, new Object[]{1});
+        Assert.assertEquals(result1, result2);
+    }
+
+    public String findById(Integer id) {
+        return "nick";
+    }
+
+    private Method findOnlyMethod(Class clazz, String methodName) {
+        return Stream.of(clazz.getMethods()).filter(method -> method.getName().equals(methodName)).findFirst().get();
     }
 
 }
