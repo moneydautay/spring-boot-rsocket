@@ -23,12 +23,13 @@ import static org.mvnsearch.spring.boot.rsocket.HessianUtils.input;
  * @author linux_china
  */
 public class RSocketInvocationRequesterHandler implements InvocationHandler {
-
     private RSocket rSocket;
+    private String dataType;
     private Map<Method, JavaMethodMetadata> methodMetadataMap = new ConcurrentHashMap<>();
 
-    public RSocketInvocationRequesterHandler(RSocket rSocket) {
+    public RSocketInvocationRequesterHandler(RSocket rSocket, String dataType) {
         this.rSocket = rSocket;
+        this.dataType = dataType;
     }
 
     @Override
