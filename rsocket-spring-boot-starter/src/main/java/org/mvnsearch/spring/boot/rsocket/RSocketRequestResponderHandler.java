@@ -1,12 +1,12 @@
 package org.mvnsearch.spring.boot.rsocket;
 
 import io.rsocket.AbstractRSocket;
+import io.rsocket.ConnectionSetupPayload;
 import io.rsocket.Payload;
 import io.rsocket.exceptions.InvalidException;
 import io.rsocket.util.DefaultPayload;
 import org.mvnsearch.rsocket.RSocketProtos;
 import org.reactivestreams.Publisher;
-import org.springframework.beans.factory.annotation.Autowired;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -19,8 +19,16 @@ import java.nio.ByteBuffer;
  */
 @SuppressWarnings("Duplicates")
 public class RSocketRequestResponderHandler extends AbstractRSocket {
-    @Autowired
     private ReactiveServiceCaller serviceCall;
+    private String metadataMimeType;
+    private String dataMimeType;
+
+    public RSocketRequestResponderHandler(ReactiveServiceCaller serviceCall, ConnectionSetupPayload setupPayload) {
+        this.serviceCall = serviceCall;
+        this.metadataMimeType = setupPayload.metadataMimeType();
+        this.dataMimeType = setupPayload.dataMimeType();
+        //get metadata, such auth information
+    }
 
     @Override
     public Mono<Payload> requestResponse(Payload payload) {
