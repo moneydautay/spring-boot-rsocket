@@ -50,6 +50,8 @@ public class RSocketRequesterApp {
     public RSocket rSocket() {
         return RSocketFactory
                 .connect()
+                .metadataMimeType("application/protobuf")
+                .dataMimeType("application/hessian")
                 .transport(TcpClientTransport.create("localhost", 42252))
                 .start()
                 .block();
