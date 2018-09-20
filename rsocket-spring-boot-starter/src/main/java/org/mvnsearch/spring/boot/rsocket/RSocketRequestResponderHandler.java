@@ -10,8 +10,6 @@ import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.nio.ByteBuffer;
-
 /**
  * RSocket request responder handler
  *
@@ -34,7 +32,7 @@ public class RSocketRequestResponderHandler extends AbstractRSocket {
     public Mono<Payload> requestResponse(Payload payload) {
         try {
             RSocketProtos.PayloadMetadata metaData = RSocketProtos.PayloadMetadata.parseFrom(payload.getMetadata());
-            Object[] args = (Object[]) decodingData(metaData.getEncoding(), payload.getData());
+            Object args = decodingData(metaData.getEncoding(), payload);
             Object result = serviceCall.invoke(metaData.getService(), metaData.getRpc(), args);
             if (result instanceof Mono) {
                 return ((Mono<Object>) result).map(o -> DefaultPayload.create(HessianUtils.output(o)));
@@ -50,7 +48,7 @@ public class RSocketRequestResponderHandler extends AbstractRSocket {
     public Mono<Void> fireAndForget(Payload payload) {
         try {
             RSocketProtos.PayloadMetadata metaData = RSocketProtos.PayloadMetadata.parseFrom(payload.getMetadata());
-            Object[] args = (Object[]) decodingData(metaData.getEncoding(), payload.getData());
+            Object args = decodingData(metaData.getEncoding(), payload);
             serviceCall.invoke(metaData.getService(), metaData.getRpc(), args);
             return Mono.empty();
         } catch (Exception e) {
@@ -62,7 +60,7 @@ public class RSocketRequestResponderHandler extends AbstractRSocket {
     public Flux<Payload> requestStream(Payload payload) {
         try {
             RSocketProtos.PayloadMetadata metaData = RSocketProtos.PayloadMetadata.parseFrom(payload.getMetadata());
-            Object[] args = (Object[]) decodingData(metaData.getEncoding(), payload.getData());
+            Object args = decodingData(metaData.getEncoding(), payload);
             Object result = serviceCall.invoke(metaData.getService(), metaData.getRpc(), args);
             if (result instanceof Flux) {
                 return ((Flux<Object>) result).map(o -> DefaultPayload.create(HessianUtils.output(o)));
@@ -87,8 +85,17 @@ public class RSocketRequestResponderHandler extends AbstractRSocket {
         return super.metadataPush(payload);
     }
 
-    private Object decodingData(RSocketProtos.PayloadMetadata.Encoding encoding, ByteBuffer buffer) throws Exception {
-        return HessianUtils.input(buffer);
+    private Object decodingData(RSocketProtos.PayloadMetadata.Encoding encoding, Payload payload) throws Exception {
+        if (encoding.equals(RSocketProtos.PayloadMetadata.Encoding.VOID)) {
+            return null;
+        } else if (encoding.equals(RSocketProtos.PayloadMetadata.Encoding.INT)) {
+            return payload.getData().getInt();
+        } else if (encoding.equals(RSocketProtos.PayloadMetadata.Encoding.LONG)) {
+            return payload.getData().getInt();
+        } else if (encoding.equals(RSocketProtos.PayloadMetadata.Encoding.STRING)) {
+            return payload.getDataUtf8();
+        }
+        return HessianUtils.input(payload.getData());
     }
 
 }
