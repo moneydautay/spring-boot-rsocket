@@ -62,7 +62,7 @@ public class RSocketRequesterApp {
         return (UserService) Proxy.newProxyInstance(
                 UserService.class.getClassLoader(),
                 new Class[]{UserService.class},
-                new RSocketInvocationRequesterHandler(rSocket));
+                new RSocketInvocationRequesterHandler(rSocket,"application/hessian"));
     }
 
     /**
