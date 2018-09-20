@@ -76,7 +76,7 @@ Just invoke spring boot shutdown.
 
 en/decoding strategy for data. now rsocket is based on connection only.
 
-* metadata: encoding by [protobuf](rsocket-spring-boot-starter/src/main/proto/rsocket.proto) or  [json](rsocket-spring-boot-starter/src/main/proto/metdata.json)
+* metadata: encoding by [protobuf](rsocket-spring-boot-starter/src/main/proto/rsocket.proto) or  [json](rsocket-spring-boot-starter/src/main/proto/metadata.json)
 * data: primitive data, pb, json, hessian etc
 
 #####  serializers(en/decoding)
