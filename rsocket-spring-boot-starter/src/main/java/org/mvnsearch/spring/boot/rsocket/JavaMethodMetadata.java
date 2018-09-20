@@ -100,7 +100,7 @@ public class JavaMethodMetadata {
     }
 
     public ByteBuffer encodingBody(Object[] args) {
-        //todo no strategy pattern because of performance  and more encoding
+        //todo no strategy pattern because of performance  and more encoding, byte buffer performance
         if (this.encoding == RSocketProtos.PayloadMetadata.Encoding.VOID) {
             return ByteBuffer.wrap(EMPTY_BODY);
         } else if (this.encoding == RSocketProtos.PayloadMetadata.Encoding.INT) {
