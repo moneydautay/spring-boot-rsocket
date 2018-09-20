@@ -74,9 +74,9 @@ Just invoke spring boot shutdown.
 
 ### en/decoding
 
-en/decoding strategy for data.
+en/decoding strategy for data. now rsocket is based on connection only.
 
-* metadata: encoding by protobuf, please refer [rsocket.proto](rsocket-spring-boot-starter/src/main/proto/rsocket.proto)
+* metadata: encoding by [protobuf](rsocket-spring-boot-starter/src/main/proto/rsocket.proto) or  [json](rsocket-spring-boot-starter/src/main/proto/metdata.json)
 * data: primitive data, pb, json, hessian etc
 
 #####  serializers(en/decoding)
@@ -100,7 +100,7 @@ Kotlin serialization supports JSON, Protobuf, CBOR by default.
 * performance: fast and small
 * ByteBuffer is friendly for Primitive data type
 
-primitive data type
+Primitive data type
 
 * byte: 0
 * short: 0
@@ -131,6 +131,16 @@ primitive data type
 * metrics & tracing
 * spring boot actuator for rsocket
 * client cache for performance
+* Kotlin
+
+### Question
+
+* load balance: registry, failover
+* graceful shutdown
+* grpc compatible: idl code generation, for example idl to dubbo
+* Polyglot SDK for rsocket
+* rdma socket: transport adapter
+* service mesh: sidecar proxy, Envoy
 
 ### References
 
