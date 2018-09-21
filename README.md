@@ -103,12 +103,12 @@ Kotlin serialization supports JSON, Protobuf, CBOR by default.
 Primitive data type
 
 * byte: 0
+* char: 0
 * short: 0
 * int: 0
 * long: 0L
 * float: 0.0f
 * double: 0.0d
-* char: 0
 * String: null
 * boolean: false
 * datetime: year, month, day, hour, minute, second, how about timezone(GMT 0) or timezone field?
@@ -146,3 +146,5 @@ Primitive data type
 
 * RSocket: http://rsocket.io/
 * Reactor: http://projectreactor.io/
+* RSocket Protocol: https://github.com/rsocket/rsocket/blob/master/Protocol.md
+* HTTP/2 Protocol: https://httpwg.org/specs/rfc7540.html
