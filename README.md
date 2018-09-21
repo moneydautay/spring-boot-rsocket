@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
 ```
 * In the requester side, create proxy bean to call reactive service:
 ```
- @Bean(destroyMethod = "dispose")
+    @Bean(destroyMethod = "dispose")
     public RSocket rSocket() {
         return RSocketFactory
                 .connect()
