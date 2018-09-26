@@ -132,6 +132,7 @@ Primitive data type
 * spring boot actuator for rsocket
 * client cache for performance
 * Kotlin
+* pb encoding: Kotlin, protostuff, protoc compatible
 
 ### Question
 
@@ -148,3 +149,4 @@ Primitive data type
 * Reactor: http://projectreactor.io/
 * RSocket Protocol: https://github.com/rsocket/rsocket/blob/master/Protocol.md
 * HTTP/2 Protocol: https://httpwg.org/specs/rfc7540.html
+* RSocket demo on SpringOne: https://github.com/netifi/springone-demo
