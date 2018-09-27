@@ -76,7 +76,27 @@ public class RSocketRequestResponderHandler extends AbstractRSocket {
     public Flux<Payload> requestChannel(Publisher<Payload> payloads) {
         //SwitchTransform, first payload is route & auth information
         //after validate first payload, then deal with real flux
-        return null;
+        Mono<Payload> routePayload = Mono.from(payloads);
+        return routePayload
+                .map(payload -> {
+                    try {
+                        return RSocketProtos.PayloadMetadata.parseFrom(payload.getMetadata());
+                    } catch (Exception e) {
+                        return null;
+                    }
+                }).flatMapMany(metaData -> {
+                    //todo deal with metadata route information
+                    try {
+                        Flux<Payload> param = Flux.from(payloads)
+                                .skip(1)
+                                .map(o -> DefaultPayload.create(HessianUtils.output(o)));
+                        Object result = serviceCall.invoke(metaData.getService(), metaData.getRpc(), param);
+                        return ((Flux<Object>) result).map(o -> DefaultPayload.create(HessianUtils.output(o)));
+
+                    } catch (Exception e) {
+                        return Flux.error(new InvalidException(e.getMessage()));
+                    }
+                });
     }
 
 
