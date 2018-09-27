@@ -49,7 +49,7 @@ public class RSocketInvocationRequesterHandler implements InvocationHandler {
         //body content
         ByteBuffer bodyBuffer = methodMetadata.encodingBody(args);
         //----- return type deal------
-        if (methodMetadata.isFluxReturnType()) { //flux return
+        if (methodMetadata.isBiDirectional()) { //bi directional, channel
             Flux<Object> source = (Flux<Object>) args[0];
             Payload routePayload = DefaultPayload.create(bodyBuffer, metadataBuffer);
             //todo not finished yet
@@ -58,8 +58,6 @@ public class RSocketInvocationRequesterHandler implements InvocationHandler {
         } else {
             if (method.getReturnType().equals(Void.TYPE)) {
                 rSocket.fireAndForget(DefaultPayload.create(bodyBuffer, metadataBuffer))
-                        .doOnSuccess(s -> {
-                        })
                         .subscribe();
                 return null;
             } else if (method.getReturnType().equals(Flux.class)) {
