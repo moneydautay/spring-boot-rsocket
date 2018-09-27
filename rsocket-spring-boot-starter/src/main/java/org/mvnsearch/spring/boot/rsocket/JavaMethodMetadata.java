@@ -17,7 +17,10 @@ public class JavaMethodMetadata {
     private String classFullName;
     private String name;
     private int parameterCount;
-    private boolean isFluxReturnType = false;
+    /**
+     * bi directional indicate, parameter type & return type are both Flux
+     */
+    private boolean isBiDirectional = false;
     private RSocketProtos.PayloadMetadata.Encoding encoding;
 
     public JavaMethodMetadata(Method method) {
@@ -55,7 +58,7 @@ public class JavaMethodMetadata {
         }
         //return type
         if (parameterCount == 1 && method.getParameterTypes()[0].equals(Flux.class)) {
-            isFluxReturnType = true;
+            isBiDirectional = true;
         }
     }
 
@@ -91,12 +94,12 @@ public class JavaMethodMetadata {
         this.encoding = encoding;
     }
 
-    public boolean isFluxReturnType() {
-        return isFluxReturnType;
+    public boolean isBiDirectional() {
+        return isBiDirectional;
     }
 
-    public void setFluxReturnType(boolean fluxReturnType) {
-        isFluxReturnType = fluxReturnType;
+    public void setBiDirectional(boolean biDirectional) {
+        isBiDirectional = biDirectional;
     }
 
     public ByteBuffer encodingBody(Object[] args) {
