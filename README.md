@@ -133,6 +133,8 @@ Primitive data type
 * client cache for performance
 * Kotlin
 * pb encoding: Kotlin, protostuff, protoc compatible
+* RSocket cluster with spring cloud, like @RSocketCluster
+* Envoy + RSocket:  tcp proxy with health check & failover
 
 ### Question
 
