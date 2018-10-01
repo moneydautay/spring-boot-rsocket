@@ -24,26 +24,6 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.rsocket</groupId>
-            <artifactId>rsocket-transport-netty</artifactId>
-            <version>${rsocket.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.rsocket</groupId>
-            <artifactId>rsocket-core</artifactId>
-            <version>${rsocket.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.rsocket</groupId>
-            <artifactId>rsocket-load-balancer</artifactId>
-            <version>${rsocket.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.caucho</groupId>
-            <artifactId>hessian</artifactId>
-            <version>4.0.51</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.linux-china</groupId>
             <artifactId>user-service-api</artifactId>
             <version>1.0.0-SNAPSHOT</version>
