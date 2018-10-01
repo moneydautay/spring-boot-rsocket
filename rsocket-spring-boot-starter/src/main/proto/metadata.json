@@ -1,7 +1,7 @@
 {
   "encoding": "json",
-  "serviceName": "org.mvnsearch.UserService",
-  "methodName": "findById",
+  "service": "org.mvnsearch.UserService",
+  "method": "findById",
   "version": "1.0.0",
   "endpoint":"127.0.0.1:42252",
   "flag": 1234,
