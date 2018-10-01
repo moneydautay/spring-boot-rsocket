@@ -33,7 +33,7 @@ public class RSocketRequestResponderHandler extends AbstractRSocket {
         try {
             RSocketProtos.PayloadMetadata metaData = RSocketProtos.PayloadMetadata.parseFrom(payload.getMetadata());
             Object args = decodingData(metaData.getEncoding(), payload);
-            Object result = serviceCall.invoke(metaData.getService(), metaData.getRpc(), args);
+            Object result = serviceCall.invoke(metaData.getService(), metaData.getMethod(), args);
             if (result instanceof Mono) {
                 return ((Mono<Object>) result).map(o -> DefaultPayload.create(HessianUtils.output(o)));
             } else {
@@ -49,7 +49,7 @@ public class RSocketRequestResponderHandler extends AbstractRSocket {
         try {
             RSocketProtos.PayloadMetadata metaData = RSocketProtos.PayloadMetadata.parseFrom(payload.getMetadata());
             Object args = decodingData(metaData.getEncoding(), payload);
-            serviceCall.invoke(metaData.getService(), metaData.getRpc(), args);
+            serviceCall.invoke(metaData.getService(), metaData.getMethod(), args);
             return Mono.empty();
         } catch (Exception e) {
             return Mono.error(new InvalidException(e.getMessage()));
@@ -61,7 +61,7 @@ public class RSocketRequestResponderHandler extends AbstractRSocket {
         try {
             RSocketProtos.PayloadMetadata metaData = RSocketProtos.PayloadMetadata.parseFrom(payload.getMetadata());
             Object args = decodingData(metaData.getEncoding(), payload);
-            Object result = serviceCall.invoke(metaData.getService(), metaData.getRpc(), args);
+            Object result = serviceCall.invoke(metaData.getService(), metaData.getMethod(), args);
             if (result instanceof Flux) {
                 return ((Flux<Object>) result).map(o -> DefaultPayload.create(HessianUtils.output(o)));
             } else {
@@ -90,7 +90,7 @@ public class RSocketRequestResponderHandler extends AbstractRSocket {
                         Flux<Payload> param = Flux.from(payloads)
                                 .skip(1)
                                 .map(o -> DefaultPayload.create(HessianUtils.output(o)));
-                        Object result = serviceCall.invoke(metaData.getService(), metaData.getRpc(), param);
+                        Object result = serviceCall.invoke(metaData.getService(), metaData.getMethod(), param);
                         return ((Flux<Object>) result).map(o -> DefaultPayload.create(HessianUtils.output(o)));
 
                     } catch (Exception e) {
