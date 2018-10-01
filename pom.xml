@@ -13,6 +13,7 @@
         <module>spring-boot-rsocket-client</module>
         <module>spring-boot-rsocket-server</module>
         <module>user-service-api</module>
+        <module>rsocket-broker-spring-boot-starter</module>
     </modules>
 
     <properties>
