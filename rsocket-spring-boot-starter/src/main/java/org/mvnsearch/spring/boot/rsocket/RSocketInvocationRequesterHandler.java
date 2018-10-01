@@ -42,7 +42,7 @@ public class RSocketInvocationRequesterHandler implements InvocationHandler {
         //payload metadata
         RSocketProtos.PayloadMetadata.Builder metaData = RSocketProtos.PayloadMetadata.newBuilder();
         metaData.setService(methodMetadata.getClassFullName());
-        metaData.setRpc(methodMetadata.getName());
+        metaData.setMethod(methodMetadata.getName());
         metaData.setEncoding(methodMetadata.getEncoding());
         //metadata data content
         ByteBuffer metadataBuffer = ByteBuffer.wrap(metaData.build().toByteArray());
