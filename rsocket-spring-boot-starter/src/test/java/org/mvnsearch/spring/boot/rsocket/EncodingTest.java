@@ -22,7 +22,7 @@ public class EncodingTest {
         RSocketProtos.PayloadMetadata metadata = RSocketProtos.PayloadMetadata.newBuilder()
                 .setEncoding(RSocketProtos.PayloadMetadata.Encoding.PROTO)
                 .setService(service)
-                .setRpc("findById")
+                .setMethod("findById")
                 .setTraceId(UUID.randomUUID().toString()).build();
         byte[] metadataBytes = metadata.toByteArray();
         RSocketProtos.PayloadMetadata metadata1 = RSocketProtos.PayloadMetadata.parseFrom(metadataBytes);
