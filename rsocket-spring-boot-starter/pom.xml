@@ -55,6 +55,11 @@
             <artifactId>rsocket-core</artifactId>
             <version>${rsocket.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.rsocket</groupId>
+            <artifactId>rsocket-load-balancer</artifactId>
+            <version>${rsocket.version}</version>
+        </dependency>
         <!--en/decoding-->
         <dependency>
             <groupId>com.google.protobuf</groupId>
