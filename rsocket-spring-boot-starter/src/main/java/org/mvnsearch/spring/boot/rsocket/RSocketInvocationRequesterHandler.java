@@ -23,11 +23,11 @@ import static org.mvnsearch.spring.boot.rsocket.HessianUtils.input;
  * @author linux_china
  */
 public class RSocketInvocationRequesterHandler implements InvocationHandler {
-    private RSocket rSocket;
+    private Mono<RSocket> rSocket;
     private String dataType;
     private Map<Method, JavaMethodMetadata> methodMetadataMap = new ConcurrentHashMap<>();
 
-    public RSocketInvocationRequesterHandler(RSocket rSocket, String dataType) {
+    public RSocketInvocationRequesterHandler(Mono<RSocket> rSocket, String dataType) {
         this.rSocket = rSocket;
         this.dataType = dataType;
     }
@@ -54,14 +54,19 @@ public class RSocketInvocationRequesterHandler implements InvocationHandler {
             Payload routePayload = DefaultPayload.create(bodyBuffer, metadataBuffer);
             //todo not finished yet
             Flux<Payload> newFlux = Flux.just(routePayload).mergeWith(source.map(t -> DefaultPayload.create(HessianUtils.output(t))));
-            return rSocket.requestChannel(newFlux);
+            return rSocket.map(rs -> {
+                return rs.requestChannel(newFlux);
+            });
         } else {
             if (method.getReturnType().equals(Void.TYPE)) {
-                rSocket.fireAndForget(DefaultPayload.create(bodyBuffer, metadataBuffer))
-                        .subscribe();
+                rSocket.flatMap(rs -> {
+                    return rs.fireAndForget(DefaultPayload.create(bodyBuffer, metadataBuffer));
+                }).subscribe();
                 return null;
             } else if (method.getReturnType().equals(Flux.class)) {
-                Flux<Payload> flux = rSocket.requestStream(DefaultPayload.create(bodyBuffer, metadataBuffer));
+                Flux<Payload> flux = rSocket.flatMapMany(rs -> {
+                    return rs.requestStream(DefaultPayload.create(bodyBuffer, metadataBuffer));
+                });
                 return flux.map(payload -> {
                     try {
                         return input(payload.getData());
@@ -70,7 +75,9 @@ public class RSocketInvocationRequesterHandler implements InvocationHandler {
                     }
                 });
             } else {
-                Mono<Payload> payloadMono = rSocket.requestResponse(DefaultPayload.create(bodyBuffer, metadataBuffer));
+                Mono<Payload> payloadMono = rSocket.flatMap(rs -> {
+                    return rs.requestResponse(DefaultPayload.create(bodyBuffer, metadataBuffer));
+                });
                 return payloadMono.map(payload -> {
                     try {
                         return input(payload.getData());
