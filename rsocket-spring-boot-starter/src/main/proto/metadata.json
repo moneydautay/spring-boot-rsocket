@@ -1,8 +1,9 @@
 {
   "encoding": "json",
-  "service": "org.mvnsearch.UserService",
-  "rpc": "findById",
+  "serviceName": "org.mvnsearch.UserService",
+  "methodName": "findById",
   "version": "1.0.0",
+  "endpoint":"127.0.0.1:42252",
   "flag": 1234,
   "traceId": "111-222-333",
   "authorization": "jwt-token",

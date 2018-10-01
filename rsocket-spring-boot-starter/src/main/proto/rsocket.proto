@@ -5,13 +5,18 @@ option java_outer_classname = "RSocketProtos";
 
 package org.mvnsearch.rsocket;
 
-// RSocket Payload Metadata
+/*
+ * RSocket Payload Metadata
+*/
 message PayloadMetadata {
+    //data encoding
     Encoding encoding = 1;
     string service = 2;
-    string rpc = 3;
+    string method = 3;
     string version = 4;
-    uint32 flag = 5;
+    //set endpoint directly
+    string endpoint = 5;
+    uint32 flag = 9;
     string traceId = 10;
     string authorization = 11;
     map<string, string> attributes = 12;
