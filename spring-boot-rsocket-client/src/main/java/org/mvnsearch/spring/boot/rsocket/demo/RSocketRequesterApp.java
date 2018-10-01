@@ -1,5 +1,6 @@
 package org.mvnsearch.spring.boot.rsocket.demo;
 
+import io.rsocket.AbstractRSocket;
 import io.rsocket.RSocket;
 import io.rsocket.RSocketFactory;
 import io.rsocket.client.LoadBalancedRSocketMono;
@@ -14,9 +15,9 @@ import org.springframework.context.annotation.Bean;
 import reactor.core.publisher.Mono;
 
 import java.lang.reflect.Proxy;
-import java.util.Arrays;
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * RSocket requester app
@@ -30,53 +31,45 @@ public class RSocketRequesterApp {
         SpringApplication.run(RSocketRequesterApp.class, args);
     }
 
-    public Mono<RSocket> monoSocket() {
+    @Bean()
+    public Mono<RSocket> rSocket() {
+        List<RSocketSupplier> suppliers = Stream.of("localhost:42252").map(url -> {
+            String[] parts = url.split(":");
+            return new RSocketSupplier(() -> Mono.just(rSocket(parts[0], Integer.valueOf(parts[1]))));
+        }).collect(Collectors.toList());
         Publisher<List<RSocketSupplier>> src =
                 s -> {
-                    s.onNext(Arrays.asList(new RSocketSupplier(
-                            new Supplier<Mono<RSocket>>() {
-                                @Override
-                                public Mono<RSocket> get() {
-                                    return Mono.just(connectSocket("localhost", 10000));
-                                }
-                            }
-                    )));
+                    s.onNext(suppliers);
                     s.onComplete();
                 };
         return LoadBalancedRSocketMono.create(src);
     }
 
-    @Bean(destroyMethod = "dispose")
-    public RSocket rSocket() {
-        return RSocketFactory
-                .connect()
-                .metadataMimeType("application/protobuf")
-                .dataMimeType("application/hessian")
-                .transport(TcpClientTransport.create("localhost", 42252))
-                .start()
-                .block();
-    }
-
     @Bean
-    public UserService userService(RSocket rSocket) {
+    public UserService userService(Mono<RSocket> rSocket) {
         return (UserService) Proxy.newProxyInstance(
                 UserService.class.getClassLoader(),
                 new Class[]{UserService.class},
-                new RSocketInvocationRequesterHandler(rSocket,"application/hessian"));
+                new RSocketInvocationRequesterHandler(rSocket, "application/hessian"));
     }
 
-    /**
-     * create RSocket based on address and port
-     *
-     * @param address address
-     * @param port    port
-     * @return RSocket
-     */
-    private RSocket connectSocket(String address, int port) {
-        return RSocketFactory
-                .connect()
-                .transport(TcpClientTransport.create(address, port))
-                .start()
-                .block();
+    private RSocket rSocket(String host, int address) {
+        try {
+            return RSocketFactory
+                    .connect()
+                    .metadataMimeType("application/protobuf")
+                    .dataMimeType("application/hessian")
+                    .transport(TcpClientTransport.create(host, address))
+                    .start()
+                    .block();
+        } catch (Exception e) {
+            return new AbstractRSocket() {
+                @Override
+                public double availability() {
+                    return 0.0;
+                }
+            };
+        }
     }
+
 }
