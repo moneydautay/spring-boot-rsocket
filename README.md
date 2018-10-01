@@ -120,6 +120,11 @@ Primitive data type
 * protocol is easy to parse
 * Reactive: :beer:  RSocket shipped by default
 
+
+### Load Balance
+
+* RSocketSupplier: supplier to supply Mono<RSocket>
+
 ### Tips
 
 * subscribe operation in ApplicationRunner: these runners will be called after SpringApplication has started
