@@ -38,6 +38,10 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
@@ -53,6 +57,11 @@
         <dependency>
             <groupId>io.rsocket</groupId>
             <artifactId>rsocket-core</artifactId>
+            <version>${rsocket.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rsocket</groupId>
+            <artifactId>rsocket-load-balancer</artifactId>
             <version>${rsocket.version}</version>
         </dependency>
         <!--en/decoding-->
