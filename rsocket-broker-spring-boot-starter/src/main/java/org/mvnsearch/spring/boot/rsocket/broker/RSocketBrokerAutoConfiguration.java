@@ -1,8 +1,12 @@
 package org.mvnsearch.spring.boot.rsocket.broker;
 
+import io.rsocket.RSocketFactory;
+import io.rsocket.SocketAcceptor;
+import io.rsocket.transport.netty.server.TcpServerTransport;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.annotation.PostConstruct;
+import reactor.core.Disposable;
+import reactor.core.publisher.Mono;
 
 /**
  * RSocket broker auto configuration
@@ -12,9 +16,28 @@ import javax.annotation.PostConstruct;
 @Configuration
 public class RSocketBrokerAutoConfiguration {
 
-
-    @PostConstruct
-    public void init() {
-
+    @Bean
+    public RSocketUpstreamManagerImpl rSocketUpstreamManager() {
+        return new RSocketUpstreamManagerImpl();
     }
+
+    /**
+     * rsocket responder, it's a Subscriber
+     *
+     * @return Subscriber
+     */
+    @Bean(destroyMethod = "dispose")
+    public Disposable rsocketResponder(RSocketUpstreamManagerImpl upstreamManager) {
+        SocketAcceptor socketAcceptor = (setupPayload, reactiveSocket) -> Mono.just(new RSocketBrokerHandler(setupPayload, upstreamManager));
+        //@see LambdaMonoSubscriber
+        Disposable subscriber = RSocketFactory
+                .receive()
+                .acceptor(socketAcceptor)
+                .transport(TcpServerTransport.create("0.0.0.0", 9999))
+                .start()
+                .subscribe();
+        System.out.println("Proxy started at 9999");
+        return subscriber;
+    }
+
 }
