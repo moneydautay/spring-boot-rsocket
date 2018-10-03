@@ -49,15 +49,14 @@ public class RSocketInvocationRequesterHandler implements InvocationHandler {
                                              Class serviceInterface, String service, String version) {
         this.rSocket = rSocket;
         this.dataType = dataType;
-        this.endpoint = endpoint;
+        this.endpoint = endpoint == null ? "" : endpoint;
         this.serviceInterface = serviceInterface;
         if (service != null && !service.isEmpty()) {
             this.service = service;
         } else {
             this.service = serviceInterface.getCanonicalName();
         }
-        this.service = service;
-        this.version = version;
+        this.version = version == null ? "" : version;
     }
 
     @Override
