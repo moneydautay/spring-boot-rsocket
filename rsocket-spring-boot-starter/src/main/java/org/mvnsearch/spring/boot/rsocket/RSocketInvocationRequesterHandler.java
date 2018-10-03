@@ -26,14 +26,38 @@ import static org.mvnsearch.spring.boot.rsocket.HessianUtils.input;
 public class RSocketInvocationRequesterHandler implements InvocationHandler {
     private Mono<RSocket> rSocket;
     private String dataType;
+    /**
+     * endpoint, such as service name in K8S or spring application name
+     */
     @Nullable
     private String endpoint;
+    /**
+     * service interface
+     */
+    private Class serviceInterface;
+    /**
+     * service name
+     */
+    private String service;
+    /**
+     * service version
+     */
+    private String version;
     private Map<Method, JavaMethodMetadata> methodMetadataMap = new ConcurrentHashMap<>();
 
-    public RSocketInvocationRequesterHandler(Mono<RSocket> rSocket, String dataType, String endpoint) {
+    public RSocketInvocationRequesterHandler(Mono<RSocket> rSocket, String dataType, String endpoint,
+                                             Class serviceInterface, String service, String version) {
         this.rSocket = rSocket;
         this.dataType = dataType;
         this.endpoint = endpoint;
+        this.serviceInterface = serviceInterface;
+        if (service != null && !service.isEmpty()) {
+            this.service = service;
+        } else {
+            this.service = serviceInterface.getCanonicalName();
+        }
+        this.service = service;
+        this.version = version;
     }
 
     @Override
@@ -45,8 +69,10 @@ public class RSocketInvocationRequesterHandler implements InvocationHandler {
         JavaMethodMetadata methodMetadata = methodMetadataMap.get(method);
         //payload metadata
         RSocketProtos.PayloadMetadata.Builder metaData = RSocketProtos.PayloadMetadata.newBuilder();
-        metaData.setService(methodMetadata.getClassFullName());
+        metaData.setEndpoint(endpoint);
+        metaData.setService(this.service);
         metaData.setMethod(methodMetadata.getName());
+        metaData.setVersion(this.version);
         metaData.setEncoding(methodMetadata.getEncoding());
         //metadata data content
         ByteBuffer metadataBuffer = ByteBuffer.wrap(metaData.build().toByteArray());
