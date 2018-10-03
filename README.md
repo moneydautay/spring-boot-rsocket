@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 * In the requester side, create proxy bean to call reactive service:
 ```
     @Bean
-    public UserService userService(Map<String, Mono<RSocket>> rsockets) {
+    public UserService userService(@Qualifier("rsockets") Map<String, Mono<RSocket>> rsockets) {
         return RSocketRemoteServiceBuilder
                 .client(UserService.class)
                 .endpoint("user-service")
