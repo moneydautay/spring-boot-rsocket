@@ -134,7 +134,7 @@ Primitive data type
 ### Todo
 
 * channel design: port or routing
-* load balance
+* load balance: broker & endpoints
 * metrics & tracing
 * spring boot actuator for rsocket
 * client cache for performance
