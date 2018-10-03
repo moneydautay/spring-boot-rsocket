@@ -3,6 +3,7 @@ package org.mvnsearch.spring.boot.rsocket.broker;
 import io.rsocket.RSocketFactory;
 import io.rsocket.SocketAcceptor;
 import io.rsocket.transport.netty.server.TcpServerTransport;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactor.core.Disposable;
@@ -14,11 +15,12 @@ import reactor.core.publisher.Mono;
  * @author linux_china
  */
 @Configuration
+@EnableConfigurationProperties(RSocketBrokerProperties.class)
 public class RSocketBrokerAutoConfiguration {
 
     @Bean
-    public RSocketUpstreamManagerImpl rSocketUpstreamManager() {
-        return new RSocketUpstreamManagerImpl();
+    public RSocketUpstreamManagerImpl rSocketUpstreamManager(RSocketBrokerProperties brokerProperties) {
+        return new RSocketUpstreamManagerImpl(brokerProperties);
     }
 
     /**
