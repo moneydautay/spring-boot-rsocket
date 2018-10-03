@@ -21,7 +21,7 @@ public class RSocketProperties {
     /**
      * broker url, such tcp://127.0.0.1:42252
      */
-    private String broker;
+    private List<String> brokers;
     /**
      * endpoints: interface full name to endpoint url
      */
@@ -35,12 +35,12 @@ public class RSocketProperties {
         this.port = port;
     }
 
-    public String getBroker() {
-        return broker;
+    public List<String> getBrokers() {
+        return brokers;
     }
 
-    public void setBroker(String broker) {
-        this.broker = broker;
+    public void setBrokers(List<String> brokers) {
+        this.brokers = brokers;
     }
 
     public Map<String, List<String>> getEndpoints() {
