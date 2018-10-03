@@ -3,6 +3,7 @@ package org.mvnsearch.spring.boot.rsocket.demo;
 import io.rsocket.RSocket;
 import org.mvnsearch.spring.boot.rsocket.RSocketRemoteServiceBuilder;
 import org.mvnsearch.user.UserService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +24,7 @@ public class RSocketRequesterApp {
     }
 
     @Bean
-    public UserService userService(Map<String, Mono<RSocket>> rsockets) {
+    public UserService userService(@Qualifier("rsockets") Map<String, Mono<RSocket>> rsockets) {
         return RSocketRemoteServiceBuilder
                 .client(UserService.class)
                 .endpoint("user-service")
