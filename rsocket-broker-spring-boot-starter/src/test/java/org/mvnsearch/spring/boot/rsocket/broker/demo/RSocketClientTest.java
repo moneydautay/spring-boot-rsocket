@@ -27,7 +27,8 @@ public class RSocketClientTest {
     public void testCheck() throws Exception {
         Mono<RSocket> rSocket = lbRSocket();
         Mono<Payload> demo = rSocket.flatMap(rSocket1 -> {
-            return rSocket1.requestResponse(DefaultPayload.create("body", "com.alibaba.UserService"));
+            //return rSocket1.requestResponse(DefaultPayload.create("body", "org.mvnsearch.user.UserService"));
+            return rSocket1.requestResponse(DefaultPayload.create("body", "user-service"));
         });
         demo.subscribe(payload -> {
             System.out.println(payload.getDataUtf8());
