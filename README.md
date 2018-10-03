@@ -124,8 +124,10 @@ Primitive data type
 
 ### Load Balance
 
-* RSocketSupplier: supplier to supply Mono<RSocket>
-* come back???
+* Broker: the central broker cluster to route message
+* Mono<RSocket> & RSocketSupplier: client load balance
+* endpoint: service's endpoint is introduced for routing, for example spring application name, service in K8S
+* come back detection for failure nodes???
 
 ### Tips
 
