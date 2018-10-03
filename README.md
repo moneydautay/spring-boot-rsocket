@@ -98,7 +98,7 @@ Kotlin serialization supports JSON, Protobuf, CBOR by default.
 
 ##### Why encoding for primitive data type
 
-* performance: fast and small
+* performance: no encoding & decoding.
 * ByteBuffer is friendly for Primitive data type
 
 Primitive data type
