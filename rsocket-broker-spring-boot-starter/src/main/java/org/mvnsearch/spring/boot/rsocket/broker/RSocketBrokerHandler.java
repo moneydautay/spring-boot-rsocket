@@ -27,6 +27,7 @@ public class RSocketBrokerHandler extends AbstractRSocket {
     @Override
     public Mono<Payload> requestResponse(Payload payload) {
         String metadataUtf8 = payload.getMetadataUtf8();
+        //todo decoding metadata for route
         return upstreamManager.getRSocket(metadataUtf8).flatMap(rSocket -> rSocket.requestResponse(payload));
     }
 
