@@ -70,7 +70,11 @@ public class RSocketRequesterAutoConfiguration implements ApplicationContextAwar
         log.info("Destroy RSocket connections");
         Map<String, LoadBalancedRSocketMono> rsockets = (Map<String, LoadBalancedRSocketMono>) applicationContext.getBean("rsockets");
         for (LoadBalancedRSocketMono rSocket : rsockets.values()) {
-            rSocket.dispose();
+            try {
+                rSocket.dispose();
+            } catch (Exception ignore) {
+
+            }
         }
     }
 
