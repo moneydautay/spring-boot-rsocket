@@ -56,6 +56,7 @@ public class PortalController {
 ```
 
 ### graceful shutdown
+
 Just invoke spring boot shutdown.
 
 ### RSocket settings
@@ -124,6 +125,7 @@ Primitive data type
 ### Load Balance
 
 * RSocketSupplier: supplier to supply Mono<RSocket>
+* come back???
 
 ### Tips
 
@@ -141,7 +143,7 @@ Primitive data type
 * RSocket cluster with spring cloud, like @RSocketCluster
 * Envoy + RSocket:  tcp proxy with health check & failover
 
-### Question
+### Questions
 
 * load balance: registry, failover
 * graceful shutdown
@@ -151,6 +153,8 @@ Primitive data type
 * service mesh: sidecar proxy, Envoy
 
 ### References
+
+![RSocket Java Structure](rsocket-java-structure.png)
 
 * RSocket: http://rsocket.io/
 * Reactor: http://projectreactor.io/
