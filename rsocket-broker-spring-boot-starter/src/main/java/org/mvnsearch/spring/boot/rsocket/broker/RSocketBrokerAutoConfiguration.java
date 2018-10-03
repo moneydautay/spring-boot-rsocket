@@ -38,7 +38,7 @@ public class RSocketBrokerAutoConfiguration {
                 .transport(TcpServerTransport.create("0.0.0.0", 9999))
                 .start()
                 .subscribe();
-        System.out.println("Proxy started at 9999");
+        System.out.println("RSocket broker started on port 9999");
         return subscriber;
     }
 
