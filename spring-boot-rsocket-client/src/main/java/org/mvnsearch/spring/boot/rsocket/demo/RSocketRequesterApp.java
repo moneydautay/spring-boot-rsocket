@@ -24,7 +24,7 @@ public class RSocketRequesterApp {
 
     @Bean
     public UserService userService(Map<String, Mono<RSocket>> rsockets) {
-        return (UserService) RSocketRemoteServiceBuilder
+        return RSocketRemoteServiceBuilder
                 .client(UserService.class)
                 .endpoint("user-service")
                 .rSocket(rsockets)
