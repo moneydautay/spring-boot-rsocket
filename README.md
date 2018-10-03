@@ -23,25 +23,17 @@ public class UserServiceImpl implements UserService {
 ```
 * In the requester side, create proxy bean to call reactive service:
 ```
-    @Bean(destroyMethod = "dispose")
-    public RSocket rSocket() {
-        return RSocketFactory
-                .connect()
-                .transport(TcpClientTransport.create("localhost", 42252))
-                .start()
-                .block();
-    }
-
     @Bean
-    public UserService userService(RSocket rSocket) {
-        return (UserService) Proxy.newProxyInstance(
-                UserService.class.getClassLoader(),
-                new Class[]{UserService.class},
-                new RSocketInvocationRequesterHandler(rSocket));
+    public UserService userService(Map<String, Mono<RSocket>> rsockets) {
+        return RSocketRemoteServiceBuilder
+                .client(UserService.class)
+                .endpoint("user-service")
+                .rSocket(rsockets)
+                .build();
     }
 ```
 
-* call the service API from requester side:
+* Call the service API from requester side:
 ```
 @RestController
 public class PortalController {
@@ -57,7 +49,7 @@ public class PortalController {
 
 ### graceful shutdown
 
-Just invoke spring boot shutdown.
+rsocket-spring-boot-starter contains destroy logic with @PreDestroy style, so just invoke Spring Boot shutdown.
 
 ### RSocket settings
 
