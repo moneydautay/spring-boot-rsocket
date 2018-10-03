@@ -2,6 +2,7 @@ package org.mvnsearch.spring.boot.rsocket;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,7 +25,7 @@ public class RSocketProperties {
     /**
      * endpoints: interface full name to endpoint url
      */
-    private Map<String, String> endpoints;
+    private Map<String, List<String>> endpoints;
 
     public Integer getPort() {
         return port;
@@ -42,11 +43,11 @@ public class RSocketProperties {
         this.broker = broker;
     }
 
-    public Map<String, String> getEndpoints() {
+    public Map<String, List<String>> getEndpoints() {
         return endpoints;
     }
 
-    public void setEndpoints(Map<String, String> endpoints) {
+    public void setEndpoints(Map<String, List<String>> endpoints) {
         this.endpoints = endpoints;
     }
 }
