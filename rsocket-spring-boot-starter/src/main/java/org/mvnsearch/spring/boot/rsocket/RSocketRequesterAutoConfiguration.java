@@ -17,7 +17,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import reactor.core.Disposable;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.PreDestroy;
@@ -51,8 +50,8 @@ public class RSocketRequesterAutoConfiguration implements ApplicationContextAwar
      * @return RSocket map
      */
     @Bean(name = "rsockets")
-    public Map<String, Mono<RSocket>> rsockets() {
-        Map<String, Mono<RSocket>> rsockets = new HashMap<>();
+    public Map<String, LoadBalancedRSocketMono> rsockets() {
+        Map<String, LoadBalancedRSocketMono> rsockets = new HashMap<>();
         if (properties.getBrokers() != null && !properties.getBrokers().isEmpty()) {
             rsockets.put("broker", lbRSocket(properties.getBrokers()));
         }
@@ -69,9 +68,9 @@ public class RSocketRequesterAutoConfiguration implements ApplicationContextAwar
     @PreDestroy
     public void destroy() {
         log.info("Destroy RSocket connections");
-        Map<String, Mono<RSocket>> rsockets = (Map<String, Mono<RSocket>>) applicationContext.getBean("rsockets");
-        for (Mono<RSocket> rSocket : rsockets.values()) {
-            rSocket.subscribe(Disposable::dispose);
+        Map<String, LoadBalancedRSocketMono> rsockets = (Map<String, LoadBalancedRSocketMono>) applicationContext.getBean("rsockets");
+        for (LoadBalancedRSocketMono rSocket : rsockets.values()) {
+            rSocket.dispose();
         }
     }
 
@@ -82,10 +81,10 @@ public class RSocketRequesterAutoConfiguration implements ApplicationContextAwar
      * @param endpoints endpoints, such as tcp://xxx:42252
      * @return load balanced RSocket
      */
-    private Mono<RSocket> lbRSocket(List<String> endpoints) {
-        List<RSocketSupplier> suppliers = endpoints.stream().map(uri -> {
-            return new RSocketSupplier(() -> Mono.just(rSocket(uri)));
-        }).collect(Collectors.toList());
+    private LoadBalancedRSocketMono lbRSocket(List<String> endpoints) {
+        List<RSocketSupplier> suppliers = endpoints.stream()
+                .map(uri -> new RSocketSupplier(() -> Mono.just(rSocket(uri))))
+                .collect(Collectors.toList());
         Publisher<List<RSocketSupplier>> src =
                 s -> {
                     s.onNext(suppliers);
