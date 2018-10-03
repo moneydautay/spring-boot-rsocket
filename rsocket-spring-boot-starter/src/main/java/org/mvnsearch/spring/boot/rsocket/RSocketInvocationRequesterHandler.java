@@ -1,6 +1,7 @@
 package org.mvnsearch.spring.boot.rsocket;
 
 
+import io.micrometer.core.lang.Nullable;
 import io.rsocket.Payload;
 import io.rsocket.RSocket;
 import io.rsocket.util.DefaultPayload;
@@ -25,11 +26,14 @@ import static org.mvnsearch.spring.boot.rsocket.HessianUtils.input;
 public class RSocketInvocationRequesterHandler implements InvocationHandler {
     private Mono<RSocket> rSocket;
     private String dataType;
+    @Nullable
+    private String endpoint;
     private Map<Method, JavaMethodMetadata> methodMetadataMap = new ConcurrentHashMap<>();
 
-    public RSocketInvocationRequesterHandler(Mono<RSocket> rSocket, String dataType) {
+    public RSocketInvocationRequesterHandler(Mono<RSocket> rSocket, String dataType, String endpoint) {
         this.rSocket = rSocket;
         this.dataType = dataType;
+        this.endpoint = endpoint;
     }
 
     @Override
