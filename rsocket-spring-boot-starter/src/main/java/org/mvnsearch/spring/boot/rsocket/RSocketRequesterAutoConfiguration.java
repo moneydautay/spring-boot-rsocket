@@ -50,7 +50,7 @@ public class RSocketRequesterAutoConfiguration implements ApplicationContextAwar
      *
      * @return RSocket map
      */
-    @Bean
+    @Bean(name = "rsockets")
     public Map<String, Mono<RSocket>> rsockets() {
         Map<String, Mono<RSocket>> rsockets = new HashMap<>();
         if (properties.getBrokers() != null && !properties.getBrokers().isEmpty()) {
