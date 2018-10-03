@@ -121,6 +121,12 @@ Primitive data type
 * endpoint: service's endpoint is introduced for routing, for example spring application name, service in K8S
 * come back detection for failure nodes???
 
+### RSocket Broker
+
+RSocket broker is a cluster to receive RSocket messages and forward them to special service node.
+
+* metadata encoding for route: endpoint & service
+
 ### Tips
 
 * subscribe operation in ApplicationRunner: these runners will be called after SpringApplication has started
