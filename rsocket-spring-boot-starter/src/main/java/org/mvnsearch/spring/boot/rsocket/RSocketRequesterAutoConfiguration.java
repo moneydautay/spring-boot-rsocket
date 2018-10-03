@@ -9,13 +9,18 @@ import io.rsocket.uri.UriTransportRegistry;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import reactor.core.Disposable;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.PreDestroy;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,10 +34,16 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableConfigurationProperties(RSocketProperties.class)
 @ConditionalOnProperty("rsocket.brokers")
-public class RSocketRequesterAutoConfiguration {
+public class RSocketRequesterAutoConfiguration implements ApplicationContextAware {
     private Logger log = LoggerFactory.getLogger(RSocketRequesterAutoConfiguration.class);
     @Autowired
-    RSocketProperties properties;
+    private RSocketProperties properties;
+    private ApplicationContext applicationContext;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
 
     /**
      * create RSockets bean
@@ -53,6 +64,15 @@ public class RSocketRequesterAutoConfiguration {
             }
         }
         return rsockets;
+    }
+
+    @PreDestroy
+    public void destroy() {
+        log.info("Destroy RSocket connections");
+        Map<String, Mono<RSocket>> rsockets = (Map<String, Mono<RSocket>>) applicationContext.getBean("rsockets");
+        for (Mono<RSocket> rSocket : rsockets.values()) {
+            rSocket.subscribe(Disposable::dispose);
+        }
     }
 
 
