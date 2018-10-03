@@ -13,6 +13,10 @@ public class RSocketRoute {
      */
     private String endpoint;
     /**
+     * uri list
+     */
+    private List<String> uris;
+    /**
      * service list
      */
     private List<String> services;
@@ -23,6 +27,14 @@ public class RSocketRoute {
 
     public void setEndpoint(String endpoint) {
         this.endpoint = endpoint;
+    }
+
+    public List<String> getUris() {
+        return uris;
+    }
+
+    public void setUris(List<String> uris) {
+        this.uris = uris;
     }
 
     public List<String> getServices() {
