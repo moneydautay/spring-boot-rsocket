@@ -16,6 +16,8 @@ message PayloadMetadata {
     string version = 4;
     //set endpoint directly
     string endpoint = 5;
+    //region, such as data center, sub domain system
+    string region = 6;
     uint32 flag = 9;
     string traceId = 10;
     string authorization = 11;

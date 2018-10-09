@@ -4,6 +4,7 @@
   "method": "findById",
   "version": "1.0.0",
   "endpoint":"127.0.0.1:42252",
+  "region": "us",
   "flag": 1234,
   "traceId": "111-222-333",
   "authorization": "jwt-token",
