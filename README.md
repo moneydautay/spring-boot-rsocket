@@ -126,6 +126,9 @@ Primitive data type
 RSocket broker is a cluster to receive RSocket messages and forward them to special service node.
 
 * metadata encoding for route: endpoint & service
+* integrated with kubernetes: find pods by docker image label: rsocket-service:com.foobar.Xxx,com.foobar.Yyyy
+* health checker & load balance
+* graceful shutdown
 
 ### Tips
 
@@ -161,3 +164,12 @@ RSocket broker is a cluster to receive RSocket messages and forward them to spec
 * RSocket Protocol: https://github.com/rsocket/rsocket/blob/master/Protocol.md
 * HTTP/2 Protocol: https://httpwg.org/specs/rfc7540.html
 * RSocket demo on SpringOne: https://github.com/netifi/springone-demo
+
+
+### 落地
+
+* reactive: 多语言 reactive mobile
+* rsocket + envoy: rsocket 通讯协议
+* broker模式: 集中模式 + k8s
+* service mesh: rsocket + spring rsocket
+* 
