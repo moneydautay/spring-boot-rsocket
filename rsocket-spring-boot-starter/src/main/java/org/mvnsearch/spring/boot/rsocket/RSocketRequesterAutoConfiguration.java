@@ -92,6 +92,7 @@ public class RSocketRequesterAutoConfiguration implements ApplicationContextAwar
         Publisher<List<RSocketSupplier>> src =
                 s -> {
                     s.onNext(suppliers);
+                    //todo implement endpoints updating, spring event dispatcher
                     s.onComplete();
                 };
         return LoadBalancedRSocketMono.create(src);
