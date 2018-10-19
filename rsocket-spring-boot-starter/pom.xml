@@ -13,8 +13,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <spring-boot.version>2.1.0.M4</spring-boot.version>
-        <rsocket.version>0.11.8</rsocket.version>
+        <spring-boot.version>2.1.0.RC1</spring-boot.version>
+        <rsocket.version>0.11.9</rsocket.version>
         <hessian.version>4.0.51</hessian.version>
         <protobuf-java.version>3.6.1</protobuf-java.version>
         <msgpack.version>0.8.16</msgpack.version>
