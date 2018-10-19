@@ -6,7 +6,6 @@ import io.rsocket.RSocketFactory;
 import io.rsocket.client.LoadBalancedRSocketMono;
 import io.rsocket.client.filter.RSocketSupplier;
 import io.rsocket.uri.UriTransportRegistry;
-import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -17,6 +16,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.PreDestroy;
@@ -89,12 +89,8 @@ public class RSocketRequesterAutoConfiguration implements ApplicationContextAwar
         List<RSocketSupplier> suppliers = endpoints.stream()
                 .map(uri -> new RSocketSupplier(() -> Mono.just(rSocket(uri))))
                 .collect(Collectors.toList());
-        Publisher<List<RSocketSupplier>> src =
-                s -> {
-                    s.onNext(suppliers);
-                    //todo implement endpoints updating, spring event dispatcher
-                    s.onComplete();
-                };
+        //todo implement endpoints updating, spring event dispatcher:  Flux<T> create(Consumer<? super FluxSink<T>> emitter)
+        Flux<List<RSocketSupplier>> src = Flux.just(suppliers);
         return LoadBalancedRSocketMono.create(src);
     }
 
